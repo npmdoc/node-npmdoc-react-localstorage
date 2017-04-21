@@ -1,0 +1,140 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a href="https://github.com/STRML/react-localstorage">react-localstorage (v0.3.1)</a>
+</h1>
+<h4>A mixin for automatically synchronizing a component's state with localStorage.</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.react-localstorage">module react-localstorage</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.react-localstorage.componentDidMount">
+            function <span class="apidocSignatureSpan">react-localstorage.</span>componentDidMount
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.react-localstorage.componentWillUpdate">
+            function <span class="apidocSignatureSpan">react-localstorage.</span>componentWillUpdate
+            <span class="apidocSignatureSpan">(nextProps, nextState)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.react-localstorage" id="apidoc.module.react-localstorage">module react-localstorage</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.react-localstorage.componentDidMount" id="apidoc.element.react-localstorage.componentDidMount">
+        function <span class="apidocSignatureSpan">react-localstorage.</span>componentDidMount
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">componentDidMount = function () {
+  if (!hasLocalStorage) return;
+  var me = this;
+  loadStateFromLocalStorage(this, function() {
+    // After setting state, mirror back to localstorage.
+    // This prevents invariants if the developer has changed the initial state of the component.
+    ls.setItem(getLocalStorageKey(me), JSON.stringify(getSyncState(me, me.state)));
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.react-localstorage.componentWillUpdate" id="apidoc.element.react-localstorage.componentWillUpdate">
+        function <span class="apidocSignatureSpan">react-localstorage.</span>componentWillUpdate
+        <span class="apidocSignatureSpan">(nextProps, nextState)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">componentWillUpdate = function (nextProps, nextState) {
+  if (!hasLocalStorage || !this.__stateLoadedFromLS) return;
+  var key = getLocalStorageKey(this);
+  if (key === false) return;
+  var prevStoredState = ls.getItem(key);
+  if (prevStoredState &amp;&amp; process.env.NODE_ENV !== "production") {
+    warn(
+      prevStoredState === JSON.stringify(getSyncState(this, this.state)),
+      'While component ' + getDisplayName(this) + ' was saving state to localStorage, ' +
+      'the localStorage entry was modified by another actor. This can happen when multiple ' +
+      'components are using the same localStorage key. Set the property `localStorageKey` ' +
+      'on ' + getDisplayName(this) + '.'
+    );
+  }
+  // Since setState() can't be called in CWU, it's a fine time to save the state.
+  ls.setItem(key, JSON.stringify(getSyncState(this, nextState)));
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
